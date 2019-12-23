@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 usage() {
     echo 'usage: diff.sh [USER@]HOST'
     exit 1
@@ -13,8 +13,8 @@ if ! [ -d files ] && ! [ -d "files-$1" ]; then
     exit 1
 fi
 
-rm -rf $cachedir
-mkdir -p $cachedir
+rm -rf "$cachedir"
+mkdir -p "$cachedir"
 
 basedir=$(pwd)
 for dir in files "files-$1"; do
@@ -25,20 +25,29 @@ for dir in files "files-$1"; do
     cd "$dir" || exit 1
 
     find . -type f | while read -r file; do
-        mkdir -p $cachedir/"${file%/*}"
+        mkdir -p "$cachedir/${file%/*}"
 
         # if we don't have permission to read it
         # TODO: use tmpdir
-        if ! scp scp://"$1"//"$file" $cachedir/"$file" 2> /dev/null; then
-            ssh "$1" "rm -rf fanfdljnajfdnal &&
-                mkdir -p fanfdljnajfdnal/${file%/*} &&
-                sudo cp /$file fanfdljnajfdnal/$file &&
-                sudo chmod 644 -R fanfdljnajfdnal/$file " < /dev/null
-            scp scp://"$1"/~/fanfdljnajfdnal/"$file" $cachedir/"$file"
+        if ! scp scp://"$1"//"$file" "$cachedir/$file" 2> /dev/null; then
+            ssh "$1" 'rm -rf ~/fanfdljnajfdnal
+if command -v sudo > /dev/null; then
+    SUDO=sudo
+elif command -v doas > /dev/null; then
+    SUDO=doas
+else
+    echo "sudo/doas not found or not working"
+    exit 1
+fi
+rm -rf ~/fanfdljnajfdnal &&
+mkdir -p ~/fanfdljnajfdnal/"'"${file%/*}"'" &&
+$SUDO cp "/'"$file"'" ~/fanfdljnajfdnal/"'"$file"'" &&
+$SUDO chmod 644 -R ~/fanfdljnajfdnal/"'"$file"'"' < /dev/null
+            scp scp://"$1"/~/fanfdljnajfdnal/"$file" "$cachedir/$file"
         fi
 
-        diff -u $cachedir/"$file" "$file"
+        diff -u "$cachedir/$file" "$file"
     done
 done
 
-rm -rf $cachedir
+rm -rf "$cachedir"

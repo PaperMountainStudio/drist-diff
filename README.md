@@ -28,14 +28,13 @@ Dependencies
 ------------
 
 - POSIX sh
-- sudo or doas (optional)
+- sudo or doas (on the server)
 - ssh
 - rsync
 
 TODO
 ----
 
-- doas support
 - use tmpdir
 - test on FreeBSD, OpenBSD...
 - persist ssh session / do not connect for each file again
