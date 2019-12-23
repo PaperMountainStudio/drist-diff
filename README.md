@@ -7,11 +7,14 @@ companion to <gopher://bitreich.org/1/scm/drist/>
 Install
 -------
 
+```
 # make install
+```
 
 Usage and examples
 ------------------
 
+```
 % driff 123.123.123.123
 file.txt                                              100%  12    10.0KB/s   00:00
 1c1
@@ -19,6 +22,7 @@ file.txt                                              100%  12    10.0KB/s   00:
 ---
 > localhost
 % 
+```
 
 Dependencies
 ------------
