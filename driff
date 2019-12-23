@@ -35,7 +35,7 @@ for dir in files "files-$1"; do
             scp scp://"$1"/~/fanfdljnajfdnal/"$file" ~/.cache/drist/"$file"
         fi
 
-        diff --color ~/.cache/drist/"$file" "$file"
+        diff ~/.cache/drist/"$file" "$file"
     done
 done
 
