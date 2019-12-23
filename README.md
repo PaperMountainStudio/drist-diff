@@ -24,11 +24,18 @@ file.txt                                              100%  12    10.0KB/s   00:
 % 
 ```
 
-Dependencies
-------------
+Client dependencies
+-------------------
 
 - POSIX sh
-- sudo or doas (on the server)
+- ssh
+- rsync
+
+Server dependencies
+-------------------
+
+- POSIX sh
+- sudo or doas + appropriate permissons
 - ssh
 - rsync
 
