@@ -1,0 +1,42 @@
+#!/bin/sh
+usage() {
+    echo 'usage: diff.sh [USER@]HOST'
+    exit 1
+}
+
+[ -z "$1" ] && usage
+
+if ! [ -d files ] && ! [ -d "files-$1" ]; then
+    echo 'files directory not found'
+    exit 1
+fi
+
+rm -rf ~/.cache/drist
+mkdir -p ~/.cache/drist
+
+basedir=$(pwd)
+for dir in files "files-$1"; do
+    cd "$basedir" || exit 1
+    if ! [ -d "$dir" ]; then
+        continue
+    fi
+    cd "$dir" || exit 1
+
+    find . -type f | while read -r file; do
+        mkdir -p ~/.cache/drist/"${file%/*}"
+
+        # if we don't have permission to read it
+        # TODO: use tmpdir
+        if ! scp scp://"$1"//"$file" ~/.cache/drist/"$file" 2> /dev/null; then
+            ssh "$1" "rm -rf fanfdljnajfdnal &&
+                mkdir -p fanfdljnajfdnal/${file%/*} &&
+                sudo cp /$file fanfdljnajfdnal/$file &&
+                sudo chmod 644 -R fanfdljnajfdnal/$file " < /dev/null
+            scp scp://"$1"/~/fanfdljnajfdnal/"$file" ~/.cache/drist/"$file"
+        fi
+
+        diff --color ~/.cache/drist/"$file" "$file"
+    done
+done
+
+rm -rf ~/.cache/drist
