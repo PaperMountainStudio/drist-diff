@@ -2,7 +2,7 @@ drist-diff
 ----------
 
 drist-diff is a tool to show which files are different from a drist files folder  
-companion to <gopher://bitreich.org/1/scm/drist/>
+companion to [gopher://bitreich.org/1/scm/drist/](gopher://bitreich.org/1/scm/drist/)
 
 Install
 -------
