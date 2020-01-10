@@ -1,6 +1,6 @@
 #!/bin/sh -e
 usage() {
-    echo 'usage: diff.sh [USER@]HOST'
+    echo 'usage: driff [USER@]HOST'
     exit 1
 }
 
